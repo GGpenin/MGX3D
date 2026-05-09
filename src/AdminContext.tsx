@@ -13,27 +13,6 @@ interface AdminContextType {
 
 const AdminContext = createContext<AdminContextType | undefined>(undefined);
 
-const sanitizeImageUrl = (url: string) => {
-  if (!url) return url;
-  if (url.includes('WhatsApp Image 2026-05-09 at 11.01.34.jpeg') || url.includes('whatsapp_image_1')) return '/fotos/whatsapp_image_1.jpeg';
-  if (url.includes('Captura de tela 2026-05-09 110557.png') || url.includes('captura_110557')) return '/fotos/captura_110557.png';
-  if (url.includes('Captura de tela 2026-05-09 110649.png') || (url.includes('captura_110649') && !url.includes('captura_110649_1'))) return '/fotos/captura_110649.png';
-  if (url.includes('Captura de tela 2026-05-09 110649-1.png') || url.includes('captura_110649_1')) return '/fotos/captura_110649_1.png';
-  if (url.includes('Captura de tela 2026-05-09 110733.png') || url.includes('captura_110733')) return '/fotos/captura_110733.png';
-  if (url.includes('Captura de tela 2026-05-09 110755.png') || url.includes('captura_110755')) return '/fotos/captura_110755.png';
-  if (url.includes('Captura de tela 2026-05-09 110821.png') || url.includes('captura_110821')) return '/fotos/captura_110821.png';
-  if (url.includes('Captura de tela 2026-05-09 110848.png') || url.includes('captura_110848')) return '/fotos/captura_110848.png';
-  if (url.includes('Captura de tela 2026-05-09 110949.png') || url.includes('captura_110949')) return '/fotos/captura_110949.png';
-  if (url.includes('logo mgx3d.png')) return '/fotos/logo_mgx3d.png';
-  
-  try {
-    // Avoid double encoding by decoding first
-    return encodeURI(decodeURI(url));
-  } catch (e) {
-    return url;
-  }
-};
-
 export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [config, setConfig] = useState<ConfigType>(defaultConfig);
@@ -44,13 +23,7 @@ export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       try {
         const parsed = JSON.parse(savedConfig);
         
-        let validPortfolio = Array.isArray(parsed.portfolio) ? parsed.portfolio : defaultConfig.portfolio;
-        
-        // Migrate old broken URLs to strict no-space paths
-        validPortfolio = validPortfolio.map((item: any) => ({
-          ...item,
-          imageUrl: sanitizeImageUrl(item.imageUrl)
-        }));
+        const validPortfolio = Array.isArray(parsed.portfolio) ? parsed.portfolio : defaultConfig.portfolio;
 
         // Ensure arrays and objects exist in case of old localStorage structure
         setConfig({
