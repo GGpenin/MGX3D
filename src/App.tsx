@@ -1,11 +1,20 @@
-import { config, getWhatsAppUrl } from './data';
-import { Instagram, MessagesSquare, Cuboid, Settings, Zap, ArrowRight, Menu, X, Moon, Sun } from 'lucide-react';
+import { getWhatsAppUrl } from './data';
+import { Instagram, MessagesSquare, Cuboid, Settings, Zap, ArrowRight, Menu, X, Moon, Sun, Lock, LogOut, Edit2, Plus } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useState, useEffect } from 'react';
+import { useAdmin } from './AdminContext';
+import { LoginModal, AdminSettingsModal, EditPortfolioModal } from './components/AdminModals';
 
 export default function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDark, setIsDark] = useState(true);
+  
+  // Admin states
+  const { isAdmin, logout, config } = useAdmin();
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const [showSettingsModal, setShowSettingsModal] = useState(false);
+  const [editPortfolioItem, setEditPortfolioItem] = useState<any>(null);
+  const [showPortfolioModal, setShowPortfolioModal] = useState(false);
 
   useEffect(() => {
     if (isDark) {
@@ -18,8 +27,35 @@ export default function App() {
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const toggleTheme = () => setIsDark(!isDark);
 
+  const handleEditItem = (item: any) => {
+    setEditPortfolioItem(item);
+    setShowPortfolioModal(true);
+  };
+
+  const handleAddItem = () => {
+    setEditPortfolioItem(null);
+    setShowPortfolioModal(true);
+  };
+
   return (
     <div className="min-h-screen bg-bg-base text-text-base font-sans selection:bg-primary/30 selection:text-white flex flex-col overflow-x-hidden transition-colors duration-300">
+      
+      {/* Modals */}
+      <LoginModal isOpen={showLoginModal} onClose={() => setShowLoginModal(false)} />
+      <AdminSettingsModal isOpen={showSettingsModal} onClose={() => setShowSettingsModal(false)} />
+      <EditPortfolioModal isOpen={showPortfolioModal} onClose={() => setShowPortfolioModal(false)} itemToEdit={editPortfolioItem} />
+
+      {/* Admin Bar */}
+      {isAdmin && (
+        <div className="w-full bg-primary text-white text-xs py-2 px-6 flex justify-between items-center z-[60] relative">
+          <span className="font-bold uppercase tracking-widest">Modo Administrador</span>
+          <div className="flex gap-4">
+            <button onClick={() => setShowSettingsModal(true)} className="flex items-center gap-1 hover:opacity-70"><Settings className="w-3 h-3"/> Configurações</button>
+            <button onClick={logout} className="flex items-center gap-1 hover:opacity-70"><LogOut className="w-3 h-3"/> Sair</button>
+          </div>
+        </div>
+      )}
+
       {/* Header */}
       <header className="w-full border-b border-border-base bg-bg-base/90 backdrop-blur-md sticky top-0 z-50 transition-colors duration-300">
         <div className="w-full max-w-7xl mx-auto px-6 md:px-12 flex justify-between items-center h-20 relative">
@@ -39,6 +75,16 @@ export default function App() {
           </nav>
 
           <div className="hidden md:flex gap-4 items-center z-10">
+            {!isAdmin && (
+               <button 
+                onClick={() => setShowLoginModal(true)} 
+                className="p-2 rounded-sm border border-transparent hover:border-border-base transition-colors opacity-30 hover:opacity-100"
+                aria-label="Admin Login"
+                title="Login Administrativo"
+              >
+                <Lock className="w-4 h-4 text-text-base" />
+              </button>
+            )}
             <button 
               onClick={toggleTheme} 
               className="p-2 rounded-sm border border-transparent hover:border-border-base transition-colors"
@@ -47,7 +93,7 @@ export default function App() {
               {isDark ? <Sun className="w-4 h-4 text-text-base opacity-70 hover:opacity-100" /> : <Moon className="w-4 h-4 text-text-base opacity-70 hover:opacity-100" />}
             </button>
             <a 
-              href={getWhatsAppUrl()} 
+              href={getWhatsAppUrl(config)} 
               target="_blank" 
               rel="noopener noreferrer"
               className="border border-text-base px-5 py-2 rounded-sm text-[11px] uppercase tracking-widest font-semibold hover:bg-text-base hover:text-bg-base transition-all flex items-center gap-2"
@@ -58,6 +104,15 @@ export default function App() {
 
           {/* Mobile Menu Button */}
           <div className="md:hidden flex items-center gap-4">
+            {!isAdmin && (
+               <button 
+                onClick={() => setShowLoginModal(true)} 
+                className="p-2 rounded-sm border border-transparent hover:border-border-base transition-colors opacity-30 hover:opacity-100"
+                aria-label="Admin Login"
+              >
+                <Lock className="w-4 h-4 text-text-base" />
+              </button>
+            )}
             <button 
               onClick={toggleTheme} 
               className="p-2 rounded-sm border border-transparent hover:border-border-base transition-colors"
@@ -85,7 +140,7 @@ export default function App() {
                 <a href="#pedidos-concluidos" onClick={toggleMenu} className="block text-[11px] uppercase tracking-widest font-semibold opacity-60 w-full text-center hover:opacity-100">Pedidos Concluídos</a>
                 <a href="#sobre" onClick={toggleMenu} className="block text-[11px] uppercase tracking-widest font-semibold opacity-60 w-full text-center hover:opacity-100">Sobre</a>
                 <a 
-                  href={getWhatsAppUrl()} 
+                  href={getWhatsAppUrl(config)} 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="mt-4 w-full flex justify-center items-center gap-2 bg-text-base text-bg-base px-5 py-3 rounded-sm text-[11px] uppercase tracking-widest font-semibold hover:opacity-90"
@@ -120,7 +175,7 @@ export default function App() {
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <a 
-                href={getWhatsAppUrl()}
+                href={getWhatsAppUrl(config)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full sm:w-auto px-8 py-4 bg-text-base text-bg-base font-medium rounded-sm hover:opacity-90 transition-opacity flex items-center justify-center gap-3 group"
@@ -173,6 +228,14 @@ export default function App() {
             <p className="text-sm opacity-60 italic max-w-sm mx-auto">
               Confira alguns dos pedidos concluídos por nós. Da modelagem à impressão final, garantimos excelência em cada detalhe.
             </p>
+            {isAdmin && (
+              <button 
+                onClick={handleAddItem}
+                className="mt-6 inline-flex items-center gap-2 px-6 py-2 bg-primary text-white text-[11px] uppercase tracking-widest font-semibold rounded-sm hover:opacity-90 transition-opacity"
+              >
+                <Plus className="w-4 h-4" /> Adicionar Nova Peça
+              </button>
+            )}
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 border-y border-border-base">
@@ -182,7 +245,7 @@ export default function App() {
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: idx * 0.1 }}
+                transition={{ duration: 0.5, delay: idx * Math.min(0.1, 10) }}
                 className="group relative border-b md:border-b-0 md:border-r border-border-base last:border-r-0 lg:[&:nth-child(3n)]:border-r-0 min-h-[400px] flex flex-col"
               >
                 <div className="flex-1 bg-bg-alt relative overflow-hidden flex items-center justify-center transition-colors">
@@ -193,6 +256,15 @@ export default function App() {
                     loading="lazy"
                   />
                   <div className="absolute inset-0 bg-bg-base/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  
+                  {isAdmin && (
+                    <button 
+                      onClick={() => handleEditItem(item)}
+                      className="absolute top-4 right-4 z-20 bg-text-base text-bg-base p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:scale-110"
+                    >
+                      <Edit2 className="w-4 h-4" />
+                    </button>
+                  )}
                 </div>
                 
                 <div className="p-6 bg-bg-alt z-10 flex flex-col items-center text-center border-t border-border-base transition-colors group-hover:bg-bg-base">
@@ -206,7 +278,7 @@ export default function App() {
           <div className="mt-16 text-center px-6">
             <p className="text-[11px] uppercase tracking-widest opacity-40 mb-6">Tem um projeto customizado em mente?</p>
             <a 
-              href={getWhatsAppUrl()}
+              href={getWhatsAppUrl(config)}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-6 py-3 bg-transparent border border-text-base/20 text-text-base text-[11px] uppercase tracking-widest font-semibold rounded-sm hover:border-text-base transition-colors"
@@ -228,7 +300,7 @@ export default function App() {
             </p>
             
             <a 
-              href={getWhatsAppUrl()}
+              href={getWhatsAppUrl(config)}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-3 px-8 py-5 bg-primary text-white text-[11px] uppercase tracking-widest font-bold rounded-sm hover:opacity-90 transition-all group box-glow"
@@ -254,7 +326,7 @@ export default function App() {
         
         <div className="flex gap-6 italic lowercase font-serif text-[11px] opacity-100 text-text-base">
           <a href={config.instagram.url} target="_blank" rel="noopener noreferrer" className="hover:underline">instagram</a>
-          <a href={getWhatsAppUrl()} target="_blank" rel="noopener noreferrer" className="hover:underline">whatsapp</a>
+          <a href={getWhatsAppUrl(config)} target="_blank" rel="noopener noreferrer" className="hover:underline">whatsapp</a>
         </div>
         
         <div>&copy; {new Date().getFullYear()} All Rights Reserved</div>

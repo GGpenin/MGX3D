@@ -1,4 +1,4 @@
-export const config = {
+export const defaultConfig = {
   businessName: "MGX3D",
   tagline: "DO DIGITAL PARA O REAL",
   description: "Especialistas em impressão 3D, unindo tecnologia, inovação e alta qualidade para materializar seus projetos.",
@@ -91,7 +91,7 @@ export const config = {
   ]
 };
 
-export const getWhatsAppUrl = () => {
+export const getWhatsAppUrl = (config: typeof defaultConfig) => {
   const encodedMessage = encodeURIComponent(config.whatsapp.message);
   return `https://wa.me/${config.whatsapp.number}?text=${encodedMessage}`;
 };
