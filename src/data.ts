@@ -17,7 +17,7 @@ export const defaultConfig = {
     {
       id: 1,
       title: "Action Figure e Miniaturas",
-      imageUrl: "/fotos/WhatsApp%20Image%202026-05-09%20at%2011.01.34.jpeg",
+      imageUrl: "/fotos/whatsapp_image_1.jpeg",
       category: "Colecionáveis"
     },
     {
@@ -29,49 +29,49 @@ export const defaultConfig = {
     {
       id: 3,
       title: "Decoração Geek e Moderna",
-      imageUrl: "/fotos/Captura%20de%20tela%202026-05-09%20110557.png",
+      imageUrl: "/fotos/captura_110557.png",
       category: "Decoração"
     },
     {
       id: 4,
       title: "Brindes Personalizados",
-      imageUrl: "/fotos/Captura%20de%20tela%202026-05-09%20110649.png",
+      imageUrl: "/fotos/captura_110649.png",
       category: "Marketing"
     },
     {
       id: 5,
       title: "Peças de Reposição sob Medida",
-      imageUrl: "/fotos/Captura%20de%20tela%202026-05-09%20110733.png",
+      imageUrl: "/fotos/captura_110733.png",
       category: "Utilidades"
     },
     {
       id: 6,
       title: "Acessórios e Organização",
-      imageUrl: "/fotos/Captura%20de%20tela%202026-05-09%20110755.png",
+      imageUrl: "/fotos/captura_110755.png",
       category: "Utilitários"
     },
     {
       id: 7,
       title: "Peça Personalizada",
-      imageUrl: "/fotos/Captura%20de%20tela%202026-05-09%20110649-1.png",
+      imageUrl: "/fotos/captura_110649_1.png",
       category: "Projetos"
     },
     {
       id: 8,
       title: "Impressão 3D Avançada",
-      imageUrl: "/fotos/Captura%20de%20tela%202026-05-09%20110821.png",
+      imageUrl: "/fotos/captura_110821.png",
       category: "Outros"
     },
     {
       id: 9,
       title: "Modelagem e Protótipo",
-      imageUrl: "/fotos/Captura%20de%20tela%202026-05-09%20110848.png",
+      imageUrl: "/fotos/captura_110848.png",
       category: "Industrial"
     },
     {
       id: 10,
       title: "Peça Especializada",
-      imageUrl: "/fotos/Captura%20de%20tela%202026-05-09%20110949.png",
+      imageUrl: "/fotos/captura_110949.png",
       category: "Projetos"
     }
   ],
