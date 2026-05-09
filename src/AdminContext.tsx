@@ -21,7 +21,24 @@ export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     const savedConfig = localStorage.getItem('mgx3d_config');
     if (savedConfig) {
       try {
-        setConfig(JSON.parse(savedConfig));
+        const parsed = JSON.parse(savedConfig);
+        
+        let validPortfolio = Array.isArray(parsed.portfolio) ? parsed.portfolio : defaultConfig.portfolio;
+        // Fix for old generated URLs that were breaking the site
+        const hasBrokenImageUrls = validPortfolio.some((p: any) => p.imageUrl && (p.imageUrl.includes('%20') || p.imageUrl.includes(' ')));
+        if (hasBrokenImageUrls) {
+           validPortfolio = defaultConfig.portfolio;
+        }
+
+        // Ensure arrays and objects exist in case of old localStorage structure
+        setConfig({
+          ...defaultConfig,
+          ...parsed,
+          whatsapp: { ...defaultConfig.whatsapp, ...(parsed.whatsapp || {}) },
+          instagram: { ...defaultConfig.instagram, ...(parsed.instagram || {}) },
+          portfolio: validPortfolio,
+          features: Array.isArray(parsed.features) ? parsed.features : defaultConfig.features,
+        });
       } catch (e) {
         console.error("Failed to parse saved config", e);
       }
