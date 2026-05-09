@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useAdmin } from '../AdminContext';
 import { X, Lock, Save, Plus, Trash2, Edit2, Settings } from 'lucide-react';
 import { defaultConfig } from '../data';
+import { getImageUrl } from '../imageUtils';
 
 export const LoginModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => void }) => {
   const [password, setPassword] = useState('');
@@ -237,7 +238,7 @@ export const EditPortfolioModal = ({
 
           {formData.imageUrl && (
             <div className="mt-2 h-32 w-full bg-bg-alt flex items-center justify-center rounded-sm overflow-hidden border border-border-base">
-              <img src={formData.imageUrl} alt="Preview" className="h-full object-contain" onError={(e) => { (e.target as any).style.display = 'none'; }} />
+              <img src={getImageUrl(formData.imageUrl)} alt="Preview" className="h-full object-contain" onError={(e) => { (e.target as any).style.display = 'none'; }} />
             </div>
           )}
 

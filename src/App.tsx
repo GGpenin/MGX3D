@@ -3,6 +3,7 @@ import { Instagram, MessagesSquare, Cuboid, Settings, Zap, ArrowRight, Menu, X, 
 import { motion, AnimatePresence } from 'motion/react';
 import { useState, useEffect } from 'react';
 import { useAdmin } from './AdminContext';
+import { getImageUrl } from './imageUtils';
 import { LoginModal, AdminSettingsModal, EditPortfolioModal } from './components/AdminModals';
 
 export default function App() {
@@ -61,7 +62,7 @@ export default function App() {
         <div className="w-full max-w-7xl mx-auto px-6 md:px-12 flex justify-between items-center h-20 relative">
           <div className="flex items-center gap-2 z-10">
             <a href="#" className="font-serif italic text-2xl font-bold tracking-tighter text-text-base flex items-center gap-2">
-              <img src="/fotos/logo_mgx3d.png" alt="MGX3D Logo" className="h-8 object-contain" />
+              <img src={getImageUrl("/fotos/logo_mgx3d.png")} alt="MGX3D Logo" className="h-8 object-contain" />
               {config.businessName}
             </a>
             <span className="hidden sm:block text-[10px] uppercase tracking-widest opacity-60 ml-2 mt-1">Portfólio de Impressão 3D</span>
@@ -250,7 +251,7 @@ export default function App() {
               >
                 <div className="flex-1 bg-bg-alt relative overflow-hidden flex items-center justify-center transition-colors">
                   <img 
-                    src={item.imageUrl} 
+                    src={getImageUrl(item.imageUrl)} 
                     alt={item.title} 
                     className="w-full h-full object-cover object-center absolute inset-0 opacity-80 group-hover:opacity-100 group-hover:-translate-y-1 group-hover:scale-105 transition-all duration-700"
                     loading="lazy"
