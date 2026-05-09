@@ -61,9 +61,9 @@ export default function App() {
       <header className="w-full border-b border-border-base bg-bg-base/90 backdrop-blur-md sticky top-0 z-50 transition-colors duration-300">
         <div className="w-full max-w-7xl mx-auto px-6 md:px-12 flex justify-between items-center h-20 relative">
           <div className="flex items-center gap-2 z-10">
-            <a href="#" className="font-serif italic text-2xl font-bold tracking-tighter text-text-base flex items-center gap-2">
+            <a href="#" className="font-sans text-2xl font-black tracking-tight text-text-base flex items-center gap-3">
               <img src={getImageUrl("/fotos/logo_mgx3d.png")} alt="MGX3D Logo" className="h-8 object-contain" />
-              {config.businessName}
+              <span className="mt-1">{config.businessName}</span>
             </a>
             <span className="hidden sm:block text-[10px] uppercase tracking-widest opacity-60 ml-2 mt-1">Portfólio de Impressão 3D</span>
           </div>
